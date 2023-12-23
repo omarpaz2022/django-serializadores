@@ -1,3 +1,4 @@
+from django.contrib.auth import get_user_model
 from django.forms.models import model_to_dict
 from django.shortcuts import get_object_or_404
 
@@ -25,6 +26,9 @@ from rest_framework.views import APIView
 
 from e_commerce.api.serializers import *
 from e_commerce.models import Comic
+
+
+User = get_user_model()
 
 
 @api_view(http_method_names=['GET'])
@@ -227,4 +231,17 @@ class GetOneMarvelComicAPIView(RetrieveAPIView):
 #         )
 
 
-# TODO: Class API Views for User and WishList
+class UserListAPIView(ListAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+
+
+class UserRetrieveAPIView(RetrieveAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+    lookup_field = 'username'
+
+
+class WishListAPIView(ListCreateAPIView):
+    queryset = WishList.objects.all()
+    serializer_class = WishListSerializer 
